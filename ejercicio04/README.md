@@ -1,6 +1,3 @@
-## Instalacion de dive para Docker
-
-    docker pull wagoodman/dive
 # Ejercicio 04
 
 Antes crear el Dockerfile escogemos una imagen Base. En mi caso elijo amazoncorretto porque tiene licencia de uso gratuita para aplicaciones comerciales.
