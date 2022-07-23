@@ -17,7 +17,7 @@ Para esto se ejecuta el siguiente comando:
 ## Etiquetando la imagen de Docker
 Para esto se ejecuta el siguiente comando:
 
-docker image tag passwordapi:1-redhat-balanz gustavomatsunaga/passwordapi:2-redhat-balanz
+docker image tag passwordapi:2-redhat-balanz gustavomatsunaga/passwordapi:2-redhat-balanz
 
 ## Publicando la imagen de Docker
 Para esto se ejecuta el siguiente comando:
