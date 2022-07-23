@@ -7,22 +7,22 @@ Como la imagen base de redhat levanta la aplicacion de JAVA con usuario jboss (I
 ## Creando la imagen de Docker
 Para esto se ejecuta el siguiente comando:
 
-    docker build -t passwordapi:1-redhat-balanz .
+    docker build -t passwordapi:2-redhat-balanz .
 
 ## Corriendo la imagen creada 
 Para esto se ejecuta el siguiente comando:
 
-    docker run -p 8080:8080 passwordapi:1-redhat-balanz
+    docker run -p 8080:8080 passwordapi:2-redhat-balanz
 
 ## Etiquetando la imagen de Docker
 Para esto se ejecuta el siguiente comando:
 
-docker image tag passwordapi:1-redhat-balanz gustavomatsunaga/passwordapi:1-redhat-balanz
+docker image tag passwordapi:1-redhat-balanz gustavomatsunaga/passwordapi:2-redhat-balanz
 
 ## Publicando la imagen de Docker
 Para esto se ejecuta el siguiente comando:
 
-    docker image push gustavomatsunaga/passwordapi:1-redhat-balanz
+    docker image push gustavomatsunaga/passwordapi:2-redhat-balanz
 
 La imagen publicada en hub.docker.com es:
 
