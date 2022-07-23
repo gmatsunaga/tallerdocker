@@ -1,6 +1,6 @@
-FROM amazoncorretto:8
+FROM amazoncorretto:8-alpine3.14-jre
 
-RUN yum install -y shadow-utils && useradd balanz
+RUN adduser -D balanz
 
 COPY passwordapi.jar /tmp/passwordapi.jar
 
