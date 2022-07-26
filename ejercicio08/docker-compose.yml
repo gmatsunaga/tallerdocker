@@ -1,0 +1,15 @@
+version: '2'
+services:
+  web1:
+    image: nicopaez/password-api:2.1.0
+  web2:
+    image: nicopaez/password-api:2.1.0
+  balanceador:
+    image: nginx:1.13
+    volumes: 
+        - './site.conf:/etc/nginx/conf.d/site.conf'    
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web1
+      - web2
