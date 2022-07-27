@@ -1,0 +1,31 @@
+version: '2'
+services:
+  web:
+    image: nicopaez/jobvacancy-ruby:1.3.0
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./conn_str.env
+    environment:
+      PORT: "3000"
+      RACK_ENV: "production"
+    networks:
+      - frontnet
+      - backnet  
+    depends_on:
+      - db
+  db:
+    image: postgres:14.4-alpine
+    env_file:
+      - ./db_pass.env
+    networks:
+      - backnet
+
+networks:
+  frontnet:
+    name: externa
+  backnet:
+    name: interna
+  
