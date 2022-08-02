@@ -7,7 +7,7 @@ Para esto ejecuto el siguiente comando:
 
 y revisando el output de la consola obtenemos:
 
-![Captura de Pantalla](docker_run_bot1.png)
+![Captura de Pantalla](dockerrun.png)
 
 ## Aplicando Descriptor de Kuberntentes
 Para aplicar el descriptor de Kubernetes, ejecutamos:
@@ -50,4 +50,4 @@ y Luego verifico desde telegram que este corriendo:
 
 y se le solicita la version al bot con el comando /version
 
-![Captura de Pantalla](docker_run_bot2.png)
+![Captura de Pantalla](telegram.png)
