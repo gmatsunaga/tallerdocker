@@ -4,7 +4,9 @@
 Para aplicar el descriptor de Kubernetes, ejecutamos:
 
     kubectl apply -f deployment.yml
-a
+
+NOTA: Como se observo que las replicas demora unos 26 segundos en iniciar, es que se configuro initialDelaySeconds en 30 segundos
+
 y luego para verificar revisamos con el comando 
 
     kubectl get all
