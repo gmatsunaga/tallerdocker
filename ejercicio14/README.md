@@ -1,4 +1,4 @@
-# Ejercicio 13
+# Ejercicio 14
 
 ## Aplicando Descriptor de Kubernetes
 Para aplicar el descriptor de Kubernetes, ejecutamos:
