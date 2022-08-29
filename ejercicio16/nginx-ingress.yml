@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    
+spec:
+  rules:
+  - host: tallerk8s.local
+    http:
+      paths:
+      - path: /pingapp
+        pathType: Prefix
+        backend:
+          service:
+            name: pingapp
+            port:
+              number: 4567
+      - path: /passwordapi
+        pathType: Prefix
+        backend:
+          service:
+            name: password-api
+            port:
+              number: 3000              
