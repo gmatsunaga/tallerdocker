@@ -1,5 +1,10 @@
 # Ejercicio 16
 
+## Iniciando Minikube
+Para iniciar minikube lo hacemos con el siguiente comando:
+
+    minikube start --driver=docker
+
 ## Obteniendo la IP externa de minikube
 Para eso ejecutamos:
 
