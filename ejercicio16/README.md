@@ -12,12 +12,12 @@ Para eso ejecutamos:
 
 y nos retorna:
 
-    192.168.49.2
+    192.168.59.100
 
 ## Definicion de host DNS
 Se agrega una entry de host en el archivo hosts de la carpeta C:\windows\system32\drivers\etc:
 
-    192.168.49.2 tallerk8s.local 
+    192.168.59.100 tallerk8s.local 
 
 ## Instalando NGINX Ingress Controller de host DNS
 Para esto ejecutamos:
@@ -79,6 +79,33 @@ y obtenemos:
     ingress-nginx-admission-patch-8fd5s         0/1     Completed   0               9d
     ingress-nginx-controller-755dfbfc65-mqtp9   1/1     Running     2 (9m18s ago)   9d
 
+## Precarga de imagenes en minikube
+Como las imagenes pueden ser muy pesada, el deploy puede tener el status (me sucedio)  ImagePullBackOff y el proceso de deploy puede fallar. \
+Para cachear la imagen utilizamos el siguiente comando:
+
+    minikube image load nicopaez/password-api:2.0.1
+    minikube image load nicopaez/pingapp:3.0.0
+
+Luego para comprobar que se guardo en el almacen ejecutamos:
+
+    minikube image list
+
+y obtenemos
+
+    k8s.gcr.io/pause:3.7
+    k8s.gcr.io/pause:3.6
+    k8s.gcr.io/kube-scheduler:v1.24.1
+    k8s.gcr.io/kube-proxy:v1.24.1
+    k8s.gcr.io/kube-controller-manager:v1.24.1
+    k8s.gcr.io/kube-apiserver:v1.24.1
+    k8s.gcr.io/ingress-nginx/kube-webhook-certgen:<none>
+    k8s.gcr.io/ingress-nginx/controller:<none>
+    k8s.gcr.io/etcd:3.5.3-0
+    k8s.gcr.io/coredns/coredns:v1.8.6
+    gcr.io/k8s-minikube/storage-provisioner:v5
+    docker.io/nicopaez/pingapp:3.0.0
+    docker.io/nicopaez/password-api:2.0.1
+
 ## Para iniciar pingapp Descriptor de Kubernetes
 Para aplicar el descriptor de Kubernetes, ejecutamos:
 
@@ -91,16 +118,16 @@ Para verificar revisamos con el comando
 Que retorna la replicas creadas:
 
     NAME                           READY   STATUS    RESTARTS   AGE
-    pod/pingapp-6f44646dc5-zjv62   1/1     Running   0          29m
+    pod/pingapp-6f44646dc5-8pvp5   1/1     Running   0          10m
 
-    NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-    service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP    45m
+    NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+    service/pingapp   ClusterIP   10.108.135.69   <none>        4567/TCP   9m44s
 
     NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
-    deployment.apps/pingapp   1/1     1            1           29m
+    deployment.apps/pingapp   0/1     1            0           10m
 
     NAME                                 DESIRED   CURRENT   READY   AGE
-    replicaset.apps/pingapp-6f44646dc5   1         1         1       29m
+    replicaset.apps/pingapp-6f44646dc5   1         1         0       10m
 
 ## Para aplicar Descriptor de service a pingapp 
 Ejecutamos:
@@ -121,38 +148,14 @@ Que retorna el detalle del servicio creado:
     Type:              ClusterIP
     IP Family Policy:  SingleStack
     IP Families:       IPv4
-    IP:                10.103.101.172
-    IPs:               10.103.101.172
+    IP:                10.108.135.69
+    IPs:               10.108.135.69
     Port:              <unset>  4567/TCP
     TargetPort:        4567/TCP
-    Endpoints:         172.17.0.2:4567
+    Endpoints:         172.17.0.4:4567
     Session Affinity:  None
     Events:            <none>
 
-## Obteniendo imagen nicopaez/password-api:2.0.1 en minikube
-Como la imagen es muy pesada, el proceso de deploy puede fallar. Para cachear la imagen utilizamos el siguiente comando:
-
-    minikube image load nicopaez/password-api:2.0.1
-
-Luego para comprobar que se guardo en el almacen ejecutamos:
-
-    minikube image list
-
-y obtenemos
-
-    k8s.gcr.io/pause:3.7
-    k8s.gcr.io/pause:3.6
-    k8s.gcr.io/kube-scheduler:v1.24.3
-    k8s.gcr.io/kube-proxy:v1.24.3
-    k8s.gcr.io/kube-controller-manager:v1.24.3
-    k8s.gcr.io/kube-apiserver:v1.24.3
-    k8s.gcr.io/ingress-nginx/kube-webhook-certgen:<none>
-    k8s.gcr.io/ingress-nginx/controller:<none>
-    k8s.gcr.io/etcd:3.5.3-0
-    k8s.gcr.io/coredns/coredns:v1.8.6
-    gcr.io/k8s-minikube/storage-provisioner:v5
-    docker.io/nicopaez/pingapp:3.0.0
-    docker.io/nicopaez/password-api:2.0.1
 
 
 ## Para iniciar password-api Descriptor de Kubernetes
@@ -167,16 +170,16 @@ Para verificar revisamos con el comando
 Que retorna la replicas creadas:
 
     NAME                               READY   STATUS    RESTARTS   AGE
-    pod/password-api-77f666dd5-6bhp4   1/1     Running   0          6s
+    pod/password-api-77f666dd5-vbwgd   1/1     Running   0          11m
 
-    NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-    service/password-api   ClusterIP   10.106.91.108   <none>        3000/TCP   30s
+    NAME                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    service/password-api   ClusterIP   10.104.238.104   <none>        3000/TCP   11m
 
     NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
-    deployment.apps/password-api   1/1     1            1           6s
+    deployment.apps/password-api   1/1     1            1           11m
 
     NAME                                     DESIRED   CURRENT   READY   AGE
-    replicaset.apps/password-api-77f666dd5   1         1         1       6s
+    replicaset.apps/password-api-77f666dd5   1         1         1       11m
 
 ## Para aplicar Descriptor de service a password-api 
 Ejecutamos:
@@ -188,7 +191,6 @@ Para verificar revisamos con el comando
     kubectl describe service password-api
 
 Que retorna el detalle del servicio creado:
-
     Name:              password-api
     Namespace:         default
     Labels:            app=password-api
@@ -197,8 +199,8 @@ Que retorna el detalle del servicio creado:
     Type:              ClusterIP
     IP Family Policy:  SingleStack
     IP Families:       IPv4
-    IP:                10.103.125.115
-    IPs:               10.103.125.115
+    IP:                10.104.238.104
+    IPs:               10.104.238.104
     Port:              <unset>  3000/TCP
     TargetPort:        3000/TCP
     Endpoints:         172.17.0.5:3000
@@ -217,18 +219,27 @@ Para verificar revisamos con el comando
 Que retorna el detalle del servicio creado:
 
     Name:             nginx-ingress
+    Labels:           <none>
     Namespace:        default
-    Address:
-    Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+    Address:          192.168.59.100
+    Ingress Class:    nginx
+    Default backend:  <default>
     Rules:
     Host             Path  Backends
     ----             ----  --------
     tallerk8s.local
-                    /pingapp       pingapp:4567 (172.17.0.2:4567)
+                    /pingapp       pingapp:4567 (172.17.0.4:4567)
                     /passwordapi   password-api:3000 (172.17.0.5:3000)
     Annotations:       nginx.ingress.kubernetes.io/rewrite-target: /$1
     Events:
-    Type    Reason  Age   From                      Message
-    ----    ------  ----  ----                      -------
-    Normal  Sync    19s   nginx-ingress-controller  Scheduled for sync
+    Type    Reason  Age                  From                      Message
+    ----    ------  ----                 ----                      -------
+    Normal  Sync    6m49s (x4 over 14m)  nginx-ingress-controller  Scheduled for sync
     
+## Verificar el correcto funcionamiento de Ingress
+
+Para esto nos conectamos desde la laptop y accedemos a tallerk8s.local
+
+![Captura de Pantalla /Ingress Pingapp](ingres_pingapp.png)
+
+![Captura de Pantalla /Ingress Password-api](ingres_papi.png)

@@ -1,11 +1,21 @@
 # Ejercicio 09
 
-## Manejo de Secrets con Docker Compose v2
-Como Docker Compose v2 no soporta secrets, recien disponible a partir de v3, la forma trabajar los secrets es definir archivos para almacenar las variables de entorno key/values
+## Definicio de secrets
+Para crear los secrets ejecutamos estos comandos:
 
-Para eso se definio el archivo db_pass.env para que el contenedor de db levante la variable de POSTGRES_PASSWORD necesaria para levantar postgres
+    echo "Passw0rd!" | docker secret create clave_db -
+    echo "postgres://postgres:Passw0rd!@db:5432/postgres" | docker secret create connection_string -
 
-Para eso se definio el archivo conn_str.env para que el contenedor de web se pueda conectar a la base de datos con la variable de DATABASE_URL
+Para verificar que se crearon correctamente, ejecutamos:
+
+    docker secret ls
+
+y nos retorna los dos secrets creados
+
+    ID                          NAME                DRIVER    CREATED              UPDATED
+    of2gxa0hzu2bturrf2lo6wf4s   clave_db                      About a minute ago   About a minute ago
+    kfn5hpc315wswyhd1zb8bnomj   connection_string             4 seconds ago        4 seconds ago
+
 
 ## Definicion de Networks
 Para comunicar el servicio web y db se especifico una network llamada backnet, en la cual ambos contenedores se ven.
